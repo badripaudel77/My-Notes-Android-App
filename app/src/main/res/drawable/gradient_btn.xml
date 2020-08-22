@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--this xml file is for the button gradient - transition of color from one end to next, corner radius -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    color transition from one end to the next end-->
+    <gradient
+        android:startColor="@color/start_color_btn_gradient"
+        android:endColor="@color/end_color_btn_gradient"
+        />
+
+<!--    for rounded corner use corner attb-->
+    <corners
+        android:radius="5dp"
+        />
+</shape>

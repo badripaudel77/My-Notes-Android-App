@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="foodie_text_color">#FD27B049</color>
+    <color name="start_color_btn_gradient">#619c1a</color>
+    <color name="end_color_btn_gradient">#88ed0e</color>
+    <color name="text_color_btn_gradient">#fff</color>
+    <color name="background_input_fields_start_color">#443C20</color>
+    <color name="background_input_fields_end_color">#e8a564</color>
+    <color name="fb_background">#1c1cd6</color>
+    <color name="google_background">#C3463B</color>
+
+
+</resources>
