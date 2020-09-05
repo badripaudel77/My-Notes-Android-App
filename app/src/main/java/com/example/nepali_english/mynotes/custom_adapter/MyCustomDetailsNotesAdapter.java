@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.nepali_english.mynotes.R;
@@ -14,12 +13,12 @@ import com.example.nepali_english.mynotes.models.Note;
 
 import java.util.ArrayList;
 
-public class MyCustomNotesAdapter extends BaseAdapter {
+public class MyCustomDetailsNotesAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Note> noteList;
 
-    public MyCustomNotesAdapter(Context context, ArrayList<Note> noteList) {
+    public MyCustomDetailsNotesAdapter(Context context, ArrayList<Note> noteList) {
         this.context = context;
         this.noteList = noteList;
     }
@@ -44,23 +43,14 @@ public class MyCustomNotesAdapter extends BaseAdapter {
 
            //inflate our custom listview
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.custom_notes_listview, null);
+            view = inflater.inflate(R.layout.custom_notes_details_listview, null);
 
-            TextView title_text =  view.findViewById(R.id.note_title);
-            TextView desc_text =    view.findViewById(R.id.note_desc);
-
-
-            //Button update_btn =  view.findViewById(R.id.update_note_button);
+            TextView title_text =  view.findViewById(R.id.note_details_title);
+            TextView desc_text =    view.findViewById(R.id.note_details_desc);
 
             Note note = noteList.get(position);
 
-            title_text.setEllipsize(TextUtils.TruncateAt.END);
-            title_text.setMaxLines(1);
-
-            desc_text.setEllipsize(TextUtils.TruncateAt.END);
-            desc_text.setMaxLines(2);
-
-            title_text.setText(note.getTitle()); //note.getTitle().substring(beginIndex, endIndex) doesn't work for my case.
+            title_text.setText(note.getTitle());
             desc_text.setText(note.getDescription());
 
            return view;

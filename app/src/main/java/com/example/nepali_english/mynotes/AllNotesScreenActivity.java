@@ -6,12 +6,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.nepali_english.mynotes.alert.Alert;
 import com.example.nepali_english.mynotes.custom_adapter.MyCustomNotesAdapter;
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 import com.example.nepali_english.mynotes.models.Note;
@@ -32,6 +34,9 @@ public class AllNotesScreenActivity extends AppCompatActivity {
 
     //custom adapter for note list view
     MyCustomNotesAdapter myCustomNotesAdapter;
+
+    //alertdialog ref
+    Alert alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +82,10 @@ public class AllNotesScreenActivity extends AppCompatActivity {
         myCustomNotesAdapter = new MyCustomNotesAdapter(AllNotesScreenActivity.this, (ArrayList<Note>) allNotes);
         listView.setAdapter(myCustomNotesAdapter);
 
-        //handle delete onclick listener
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //handle delete on long click listener
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //logic  to delete item
                 final Note clickedNote = (Note) adapterView.getItemAtPosition(i);
 
@@ -88,22 +93,23 @@ public class AllNotesScreenActivity extends AppCompatActivity {
                 AlertDialog.Builder deleteNoteAlertDialog = new AlertDialog.Builder(
                         AllNotesScreenActivity.this);
 
+                //initializng  alert dialog
+                alertDialog = new Alert("Delete Note !", "Do you want to delete this note permanently ? [ can't be undo ]");
+
                 // Setting Dialog Title
-                deleteNoteAlertDialog.setTitle("Delete Note !");
+                deleteNoteAlertDialog.setTitle(alertDialog.getAlertTitle());
 
                 // Setting Dialog Message
-                deleteNoteAlertDialog.setMessage("Do you want to delete this note permanently ? [ can't be undo ]");
+                deleteNoteAlertDialog.setMessage(alertDialog.getAlertMessage());
 
                 // Setting Icon to Dialog
-                //  alertDialog2.setIcon(R.drawable.delete);
+                 deleteNoteAlertDialog.setIcon(R.drawable.delete);
 
                 // Setting Positive "Yes" Btn
                 deleteNoteAlertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
                                 boolean success = myNotesDatabaseHelper.deleteOneNote(clickedNote);
-
                                 if (!success) {
                                     Toast.makeText(AllNotesScreenActivity.this, "Couldn't be deleted your note. ", Toast.LENGTH_SHORT).show();
                                     return;
@@ -122,9 +128,25 @@ public class AllNotesScreenActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                 // Showing Alert Dialog
                 deleteNoteAlertDialog.show();
+
+                return true;
+            }
+        });
+
+
+        //on click lead to new details screen for that note
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Note clickedNote = (Note) adapterView.getItemAtPosition(i);
+                int clickedId = clickedNote.getId();
+                Intent intent = new Intent(getApplicationContext(), NoteDetailsScreenActivity.class);
+                intent.putExtra("clickedId", clickedId);
+                intent.putExtra("username", username);
+                startActivity(intent);
             }
         });
     }

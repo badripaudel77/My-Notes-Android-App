@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -60,6 +61,20 @@ public class ImportantNotesActivity extends AppCompatActivity {
         //my custom adapter
         myCustomNotesAdapter  = new MyCustomNotesAdapter(ImportantNotesActivity.this, (ArrayList<Note>) allImpNotes);
         listView.setAdapter(myCustomNotesAdapter);
+
+        //on click lead to new details screen for that note
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Note clickedNote = (Note) adapterView.getItemAtPosition(i);
+                int clickedId = clickedNote.getId();
+                Intent intent = new Intent(getApplicationContext(), NoteDetailsScreenActivity.class);
+                intent.putExtra("clickedId", clickedId);
+                intent.putExtra("username", username);
+                startActivity(intent);
+            }
+        });
 
     }
 }

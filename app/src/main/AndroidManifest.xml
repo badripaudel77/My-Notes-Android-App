@@ -14,6 +14,7 @@
         <activity android:name=".AllNotesScreenActivity" />
         <activity android:name=".SignIn_Activity" />
         <activity android:name=".Signup_Activity" />
+        <activity android:name=".NoteDetailsScreenActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

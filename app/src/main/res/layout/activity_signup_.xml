@@ -49,7 +49,7 @@
                 <EditText
                     android:id="@+id/editTextName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="60dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/background_input_field"
@@ -68,14 +68,14 @@
                     android:background="@drawable/background_input_field"
                     android:drawableLeft="@drawable/username_email"
                     android:ems="10"
-                    android:hint="Enter Email or Username"
+                    android:hint="Enter Username"
                     android:inputType="textEmailAddress"
-                    android:padding="10dp" />
+                    android:padding="7dp" />
 
                 <EditText
                     android:id="@+id/editTextTextPassword"
                     android:layout_width="match_parent"
-                    android:layout_height="59dp"
+                    android:layout_height="60dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/background_input_field"
@@ -83,19 +83,19 @@
                     android:ems="10"
                     android:hint="Enter Password"
                     android:inputType="textPassword"
-                    android:padding="18dp" />
+                    android:padding="8dp" />
 
                 <EditText
                     android:id="@+id/editTextconfirm_pw"
                     android:layout_width="match_parent"
-                    android:layout_height="62dp"
+                    android:layout_height="60dp"
                     android:layout_marginBottom="15dp"
                     android:background="@drawable/background_input_field"
                     android:drawableLeft="@drawable/conf_pw"
                     android:ems="10"
                     android:hint="Confirm Password"
                     android:inputType="textPassword"
-                    android:padding="18dp" />
+                    android:padding="10dp" />
 
                 <Button
                     android:id="@+id/submit_sign_up_btn"

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nepali_english.mynotes.alert.Alert;
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 
 public class Signup_Activity extends AppCompatActivity {
@@ -26,6 +27,9 @@ public class Signup_Activity extends AppCompatActivity {
     TextView already_acc;
 
     MyNotesDatabaseHelper myNotesDatabaseHelper;
+
+    //Alert
+    Alert alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,14 +110,17 @@ public class Signup_Activity extends AppCompatActivity {
                     AlertDialog.Builder registerAlertDialog = new AlertDialog.Builder(
                             Signup_Activity.this);
 
+                    //initializng  alert dialog
+                    alertDialog = new Alert("Confirm Registration!", "Have you remembered your credentials ? [ can't be reset later ]");
+
                     // Setting Dialog Title
-                    registerAlertDialog.setTitle("Confirm Registration!");
+                    registerAlertDialog.setTitle(alertDialog.getAlertTitle());
 
                     // Setting Dialog Message
-                    registerAlertDialog.setMessage("Have you remembered your credentials ? [ can't be reset later ]");
+                    registerAlertDialog.setMessage(alertDialog.getAlertMessage());
 
                     // Setting Icon to Dialog
-                    //alertDialog2.setIcon(R.drawable.delete);
+                    registerAlertDialog.setIcon(R.drawable.tick);
 
                     // Setting Positive "Yes" Btn
                     registerAlertDialog.setPositiveButton("YES",

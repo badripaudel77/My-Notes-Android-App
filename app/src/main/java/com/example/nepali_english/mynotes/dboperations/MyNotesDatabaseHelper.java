@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.nepali_english.mynotes.models.Note;
 
@@ -216,22 +218,50 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //delete the notes
-    public boolean deleteOneNote(Note note) {
+    public boolean deleteOneNote(Note clickedNote) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-       // String deleteQuery = "DELETE FROM " + TABLE_NOTES + " WHERE " + COLUMN_ID + " = " + note.getId();
-
-        int delete = db.delete(TABLE_NOTES, COLUMN_ID + " =? ", new String[]{String.valueOf(note.getId())});
+        int delete = db.delete(TABLE_NOTES, COLUMN_ID + " =? ", new String[]{String.valueOf(clickedNote.getId())});
 
         return delete > 0;
+    }
 
-        //Log.i("note id ====", "deleteOneNote: " + note.getId());
-//        Cursor cursor = db.rawQuery(deleteQuery, null);
-//        if(cursor.moveToFirst()) {
-//            return true;
-//        }
-//        else {
-//            return false;
-//        }
+    //get the details of the selected note.
+    public List<Note> getDetails(int clickedNote) {
+        Note note;
+        List<Note> notes = new ArrayList<>();
+        String title, description;
+        int id;
+        boolean is_imp;
+
+        String fetchQuery = "SELECT * FROM " + TABLE_NOTES + " WHERE " + COLUMN_ID + " = " + clickedNote ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(fetchQuery, null);
+
+        //fetch and add it to the arraylist
+        if (cursor.moveToFirst()) {
+            do {
+                //store into variables
+                id = cursor.getInt(0);
+                title = cursor.getString(1);
+                description = cursor.getString(2);
+                //because boolean values are stored as integer in sqlite database.
+                is_imp = cursor.getInt(3) == 1 ? true : false;
+
+                note = new Note(id, title, description, is_imp);
+                notes.add(note);
+                Log.i("details", "getDetails: " + note.toString());
+
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return notes;
+    }
+
+    public boolean updateOne(int clickedNoteId) {
+
+        return  true;
     }
 }
+
