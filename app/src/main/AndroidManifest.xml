@@ -11,6 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ImportantNotesActivity"></activity>
         <activity android:name=".CreateNewNoteActivity" />
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".ForgotPassword_Activity" />
         <activity android:name=".AllNotesScreenActivity" />
         <activity android:name=".SignIn_Activity" />
         <activity android:name=".Signup_Activity" />

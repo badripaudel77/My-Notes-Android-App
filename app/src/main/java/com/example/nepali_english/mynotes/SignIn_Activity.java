@@ -15,6 +15,8 @@ import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 public class SignIn_Activity extends AppCompatActivity {
 
     TextView dont_acc;
+    TextView forgot_password;
+
     MyNotesDatabaseHelper myNotesDatabaseHelper;
 
     //fields of signin
@@ -39,6 +41,16 @@ public class SignIn_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 //call the singin activity
                 Intent intent = new Intent(SignIn_Activity.this, Signup_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        forgot_password =  findViewById(R.id.forgot_password);
+        forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //call the forgot password activity
+                Intent intent = new Intent(SignIn_Activity.this, ForgotPassword_Activity.class);
                 startActivity(intent);
             }
         });
