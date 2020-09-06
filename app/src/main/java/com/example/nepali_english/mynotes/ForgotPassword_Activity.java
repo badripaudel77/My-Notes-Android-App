@@ -1,5 +1,6 @@
 package com.example.nepali_english.mynotes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,18 +37,25 @@ public class ForgotPassword_Activity extends AppCompatActivity {
                 editTextEmail = findViewById(R.id.regiesteredEmail);
                 email = editTextEmail.getText().toString().trim();
 
-                if (email.length()<4) {
+                if (email.length() < 4) {
                     Toast.makeText(getApplicationContext(),"Please Enter your correct Email.",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 else {
-                    Log.i("email ???? ", "onClick: email " + email);
+                    myNotesDatabaseHelper = new MyNotesDatabaseHelper(ForgotPassword_Activity.this);
                     //check if user already exists send the code to the email and redirect to the reset password activity
                     int existsStatus = Integer.parseInt(myNotesDatabaseHelper.checkIfUserExists(email));
                     Log.i("exist ?", "onClick: exists ? " + existsStatus);
                     if (existsStatus > 0) {
-                        Toast.makeText(ForgotPassword_Activity.this, "wow with that Email exists.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgotPassword_Activity.this, "wow ✔ that Email exists. Reset your Password now.", Toast.LENGTH_SHORT).show();
+                        //redirect to the  login after successful registration
+                        Intent intent = new Intent(ForgotPassword_Activity.this, ResetPasswordActivity.class);
+                        intent.putExtra("username", email);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(ForgotPassword_Activity.this, "This Email is not registered 😢.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

@@ -87,6 +87,47 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //update user, reset password
+    public boolean resetPassword(String email, String password, int verificationCode) {
+
+        Log.i("reset pw ?? ", "resetPassword: func" + email + " " + password + " " + verificationCode);
+        long result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+//        if(verificationCode == getVerificationcodeFromUsername(email)) {
+//            //update the password
+//            cv.put(COLUMN_PASSWORD, password);
+//            //cv.put(COLUMN_TOKEN, 0); make the token empty
+//            result = db.update(TABLE_USERS, cv, email +"=?", new String[] {});
+//        }
+        //update the password
+        cv.put(COLUMN_PASSWORD, password);
+        //cv.put(COLUMN_TOKEN, 0); make the token empty
+        result = db.update(TABLE_USERS, cv, COLUMN_EMAIL +"=?", new String[] {email});
+        db.close();
+
+        if(result>0) return true;
+        else return false;
+    }
+
+    //get the token of the user with the help of email
+    // as username is unique field in users table
+    public int getVerificationcodeFromUsername(String username) {
+        String query = "SELECT token FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + " = '" + username + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int token = -1;
+        if (cursor != null && cursor.moveToFirst()) {
+            token = cursor.getInt(cursor.getColumnIndex("token"));
+        }
+        cursor.close();
+        db.close();
+
+        return token;
+    }
+
+    //get the logged in data
     public String getLoginData(String email, String password) {
         SQLiteDatabase sql = this.getReadableDatabase();
         String query = " select count(*) from " + TABLE_USERS + " where email ='" + email + "' and password='" + password + "'";
@@ -260,7 +301,7 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean updateOne(int clickedNoteId) {
-
+        //write code to update the note...
         return  true;
     }
 }
