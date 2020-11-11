@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 import com.example.nepali_english.mynotes.models.Note;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AllNotesScreenActivity extends AppCompatActivity {
@@ -44,8 +46,9 @@ public class AllNotesScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_notes_screen);
 
         final String username = getIntent().getStringExtra("username");
+        final String splittedUsername[] = username.split("@");
 
-        getSupportActionBar().setTitle("All Notes : " + username);
+        getSupportActionBar().setTitle("All Notes : " + splittedUsername[0]);
 
         //handle when user clicks on create_new_note
         create_new_note = findViewById(R.id.create_new_note);
@@ -142,9 +145,11 @@ public class AllNotesScreenActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Note clickedNote = (Note) adapterView.getItemAtPosition(i);
-                int clickedId = clickedNote.getId();
                 Intent intent = new Intent(getApplicationContext(), NoteDetailsScreenActivity.class);
-                intent.putExtra("clickedId", clickedId);
+                intent.putExtra("clickedId", clickedNote.getId());
+                intent.putExtra("clickedNoteTitle", clickedNote.getTitle());
+                intent.putExtra("clickedNoteDesc", clickedNote.getDescription());
+                intent.putExtra("clickedNoteIsImp", clickedNote.isIs_imp());
                 intent.putExtra("username", username);
                 startActivity(intent);
             }

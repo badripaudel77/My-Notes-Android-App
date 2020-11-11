@@ -11,12 +11,12 @@ import android.widget.Toast;
 import com.example.nepali_english.mynotes.models.Note;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_USERS = "users";
-    public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
@@ -28,12 +28,14 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NOTE_IS_IMP = "is_imp";
     public static final String COLUMN_NOTE_USER_ID = "userid";
 
+    //common column for both table
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_TOKEN = "token";
 
     private static final String DATABASE_NAME = "users.db";
 
     //i added new table so i must change the version.
-    private static final int DATABASE_VERSION = 2;
-
+    private static final int DATABASE_VERSION = 4;
 
     // Initialize the database object.
     public MyNotesDatabaseHelper(Context context) {
@@ -44,9 +46,12 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         // Database creation sql statement for register and login
         String SQL_USERS_TABLE = "CREATE TABLE IF NOT EXISTS " +
-                TABLE_USERS + "(" + COLUMN_ID + " integer primary key autoincrement, " +
-                COLUMN_NAME + " text not null, " + COLUMN_EMAIL +
-                " text not null, " +
+                TABLE_USERS +
+                "(" +
+                COLUMN_ID + " integer primary key autoincrement, " +
+                COLUMN_NAME + " text not null, " +
+                COLUMN_EMAIL + " text not null, " +
+                COLUMN_TOKEN + " integer not null, " +
                 COLUMN_PASSWORD + " text not null);";
 
         String SQL_NOTES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NOTES + " ("
@@ -71,20 +76,39 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     //register user
-    public boolean addUser(String name, String email, String password) {
+    public boolean addUser(String name, String email, int token,String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues c = new ContentValues();
         c.put(COLUMN_NAME, name);
         c.put(COLUMN_EMAIL, email);
+        c.put(COLUMN_TOKEN, token);
         c.put(COLUMN_PASSWORD, password);
         long result = db.insert(TABLE_USERS, null, c);
         db.close();
 
-        if (result == -1) {
-            return false;
-        } else {
+        if (result == -1)  return false;
+        else  {
+            //send email with that token if to verify the email first ...
             return true;
         }
+    }
+
+
+    //if user clicks reset password set token to that username
+    public boolean setToken(String email, int verificationCode) {
+
+        Log.i("set token ?? ", "resetPassword: func" + email + " " + email + " " + verificationCode);
+        long result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        //update the password
+        cv.put(COLUMN_TOKEN, verificationCode); //make the token to set in db
+        result = db.update(TABLE_USERS, cv, COLUMN_EMAIL +"=?", new String[] {email});
+        db.close();
+
+        if(result>0) return true;
+        else return false;
     }
 
     //update user, reset password
@@ -95,15 +119,12 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-//        if(verificationCode == getVerificationcodeFromUsername(email)) {
-//            //update the password
-//            cv.put(COLUMN_PASSWORD, password);
-//            //cv.put(COLUMN_TOKEN, 0); make the token empty
-//            result = db.update(TABLE_USERS, cv, email +"=?", new String[] {});
-//        }
+        if((verificationCode != getVerificationcodeFromUsername(email))) {
+            return false;
+        }
         //update the password
         cv.put(COLUMN_PASSWORD, password);
-        //cv.put(COLUMN_TOKEN, 0); make the token empty
+        cv.put(COLUMN_TOKEN, 0); //make the token empty with value 0 [ out of range ]
         result = db.update(TABLE_USERS, cv, COLUMN_EMAIL +"=?", new String[] {email});
         db.close();
 
@@ -122,8 +143,6 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
             token = cursor.getInt(cursor.getColumnIndex("token"));
         }
         cursor.close();
-        db.close();
-
         return token;
     }
 
@@ -248,6 +267,7 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
                 //because boolean values are stored as integer in sqlite database.
                 is_imp = cursor.getInt(3) == 1 ? true : false;
 
+
                 note = new Note(id, title, description, is_imp);
                 notes.add(note);
             }
@@ -300,9 +320,23 @@ public class MyNotesDatabaseHelper extends SQLiteOpenHelper {
         return notes;
     }
 
-    public boolean updateOne(int clickedNoteId) {
-        //write code to update the note...
-        return  true;
+    //update the note
+    public boolean updateNote(String title, String description, boolean is_imp, int noteId) {
+        Log.i("update note ?? ", "updateNote: func" + title + " " + description + " " + is_imp + " " + noteId);
+        long result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        //update the password
+        cv.put(COLUMN_NOTE_TITLE, title);
+        cv.put(COLUMN_NOTE_DESC, description);
+        cv.put(COLUMN_NOTE_IS_IMP, is_imp);
+
+        result = db.update(TABLE_NOTES, cv, COLUMN_ID +"=?", new String[] {String.valueOf(noteId)});
+        db.close();
+
+        if(result>0) return true;
+        else return false;
     }
 }
 

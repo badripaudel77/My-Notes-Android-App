@@ -1,11 +1,14 @@
 package com.example.nepali_english.mynotes;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.nepali_english.mynotes.alert.Alert;
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Signup_Activity extends AppCompatActivity {
     //signup handler
@@ -67,9 +72,9 @@ public class Signup_Activity extends AppCompatActivity {
 
                 //convert EditText values to string becouse method expects String value
                 strName = name.getText().toString().trim();
-                strEmail = email.getText().toString().trim();
-                strPassword = password.getText().toString().trim();
-                strConfPassword = confirmPassword.getText().toString().trim();
+                strEmail = email.getText().toString().trim().toLowerCase();
+                strPassword = password.getText().toString();
+                strConfPassword = confirmPassword.getText().toString();
 
                 if (strName.length() < 3) {
                     Toast.makeText(Signup_Activity.this, "Name must be at least 3 characters long.", Toast.LENGTH_SHORT).show();
@@ -77,16 +82,18 @@ public class Signup_Activity extends AppCompatActivity {
                 }
 
                 //make sure username is at least 3 char long
-                if (strEmail.length() < 5) {
-                    Toast.makeText(Signup_Activity.this, "Username or email must be at least 5 characters long.", Toast.LENGTH_SHORT).show();
+                if (strEmail.length() < 1) {
+                    Toast.makeText(Signup_Activity.this, "email must not be empty.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 //make sure username contains both letter and number
-                if (!(strEmail.matches(".*[a-zA-Z].*") && strEmail.matches(".*[0-9].*"))) {
-                    Toast.makeText(Signup_Activity.this, "Username or email must contain at least one letter and one number.", Toast.LENGTH_SHORT).show();
+                if (!(strEmail.matches("[_a-zA-Z1-9]+(\\.[A-Za-z0-9]*)*@[A-Za-z0-9]+\\.[A-Za-z0-9]+(\\.[A-Za-z0-9]*)*"))) {
+                    Toast.makeText(Signup_Activity.this, "email must be Valid email.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+
 
                 if (strPassword.length() < 5) {
                     Toast.makeText(Signup_Activity.this, "Password must contain at least 5 characters.", Toast.LENGTH_SHORT).show();
@@ -125,10 +132,13 @@ public class Signup_Activity extends AppCompatActivity {
                     // Setting Positive "Yes" Btn
                     registerAlertDialog.setPositiveButton("YES",
                             new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 public void onClick(DialogInterface dialog, int which) {
 
+                                    //generate random integer value
+
                                     // Write your code here to execute after dialog
-                                    boolean status = myNotesDatabaseHelper.addUser(strName, strEmail, strPassword);
+                                    boolean status = myNotesDatabaseHelper.addUser(strName, strEmail, ThreadLocalRandom.current().nextInt(1010, 100000), strPassword);
                                     if (status) {
                                         Toast.makeText(Signup_Activity.this, "Register Succussful, Please Login To Proceed ", Toast.LENGTH_SHORT).show();
                                         //redirect to the  login after successful registration
@@ -144,7 +154,9 @@ public class Signup_Activity extends AppCompatActivity {
                     // Setting Negative "NO" Btn
                     registerAlertDialog.setNegativeButton("NO",
                             new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 public void onClick(DialogInterface dialog, int which) {
+                                    Log.i("random number", "onClick: " +ThreadLocalRandom.current().nextInt(1000, 100000));
                                     // Write your code here to execute after dialog
                                     Toast.makeText(getApplicationContext(),
                                             "Fill Unique Credentials and remember them.", Toast.LENGTH_SHORT)

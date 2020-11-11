@@ -59,7 +59,7 @@
                     android:background="@drawable/background_input_field"
                     android:drawableLeft="@drawable/username_email"
                     android:ems="10"
-                    android:hint="Enter  Username"
+                    android:hint="Enter Email"
                     android:inputType="textEmailAddress" />
 
                 <EditText

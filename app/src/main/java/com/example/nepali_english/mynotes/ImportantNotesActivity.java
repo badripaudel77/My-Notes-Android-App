@@ -68,9 +68,11 @@ public class ImportantNotesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Note clickedNote = (Note) adapterView.getItemAtPosition(i);
-                int clickedId = clickedNote.getId();
                 Intent intent = new Intent(getApplicationContext(), NoteDetailsScreenActivity.class);
-                intent.putExtra("clickedId", clickedId);
+                intent.putExtra("clickedId", clickedNote.getId());
+                intent.putExtra("clickedNoteTitle", clickedNote.getTitle());
+                intent.putExtra("clickedNoteDesc", clickedNote.getDescription());
+                intent.putExtra("clickedNoteIsImp", clickedNote.isIs_imp());
                 intent.putExtra("username", username);
                 startActivity(intent);
             }

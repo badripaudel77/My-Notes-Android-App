@@ -48,6 +48,11 @@ public class NoteDetailsScreenActivity extends AppCompatActivity {
         //get username
         final String username = getIntent().getStringExtra("username");
 
+        //get note details
+        final String noteTitle = getIntent().getStringExtra("clickedNoteTitle");
+        final String noteDesc = getIntent().getStringExtra("clickedNoteDesc");
+        final boolean is_imp = getIntent().getExtras().getBoolean("clickedNoteIsImp");
+
         getSupportActionBar().setTitle("Details : My Notes");
 
         //handle go to all notes screen
@@ -94,15 +99,13 @@ public class NoteDetailsScreenActivity extends AppCompatActivity {
                 deleteNoteAlertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                boolean success = myNotesDatabaseHelper.updateOne(clickedNoteId);
-                                if (!success) {
-                                    Toast.makeText(NoteDetailsScreenActivity.this, "Couldn't be updated your note. ", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                Toast.makeText(NoteDetailsScreenActivity.this, "Note Updated Successfully ", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(), NoteDetailsScreenActivity.class);
+
+                                Intent intent = new Intent(getApplicationContext(), UpdateNoteActivity.class);
                                 intent.putExtra("username", username);
                                 intent.putExtra("clickedId", clickedNoteId);
+                                intent.putExtra("clickedNoteTitle", noteTitle);
+                                intent.putExtra("clickedNoteDesc", noteDesc);
+                                intent.putExtra("clickedNoteIsImp", is_imp);
                                 startActivity(intent);
                             }
                         });

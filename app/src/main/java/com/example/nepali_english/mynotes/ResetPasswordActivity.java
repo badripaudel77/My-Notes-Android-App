@@ -53,11 +53,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 token = Integer.valueOf(verificationCode.getText().toString().trim());
 
                 if(token <= 0) {
-                    Toast.makeText(ResetPasswordActivity.this, "Enter  The Valid Received Token.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResetPasswordActivity.this, "Enter The Valid Received Token.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (password.equals("") && passwordConfirm.equals("")) {
                     Toast.makeText(getApplicationContext(),"Please Enter yourpassword.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!(password.matches(".*[a-zA-Z].*") && passwordConfirm.matches(".*[0-9].*"))) {
+                    Toast.makeText(getApplicationContext(), "Password must contain at least one letter and one number.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -76,7 +80,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                     else {
-                        Toast.makeText(ResetPasswordActivity.this, "Couldn't update your password, Try again.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ResetPasswordActivity.this, "Couldn't update your password. Is your token Correct ?", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

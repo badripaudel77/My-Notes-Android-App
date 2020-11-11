@@ -50,7 +50,7 @@
         <Button
             android:id="@+id/entry_login_btn"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="53dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/gradient_btn"
             android:padding="4dp"
@@ -61,7 +61,7 @@
         <Button
             android:id="@+id/entry_register_btn"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="53dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/gradient_btn"
             android:padding="5dp"

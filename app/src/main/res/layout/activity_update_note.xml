@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:orientation="vertical"
+    tools:context="com.example.nepali_english.mynotes.CreateNewNoteActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--   add scrolling behavior  -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/updateNoteTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="77dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/background_input_field"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:padding="15dp"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/updateNoteDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="186dp"
+                    android:background="@drawable/background_input_field"
+                    android:ems="10"
+                    android:padding="15dp"
+                    android:textSize="24sp" />
+
+                <Switch
+                    android:id="@+id/update_mark_as_imp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:padding="15dp"
+                    android:text="Mark As Important"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/submit_update_note_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:background="@color/background_input_fields_start_color"
+                    android:text="Update Note"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</LinearLayout>

@@ -64,7 +64,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 editTextTextPassword = findViewById(R.id.editTextTextPassword);
 
                 //convert editText to the String because method expects String value
-                email = editTextEmail.getText().toString().trim();
+                email = editTextEmail.getText().toString().trim().toLowerCase();
                 password = editTextTextPassword.getText().toString().trim();
 
                 if (email.equals("") && password.equals("")) {
@@ -82,7 +82,7 @@ public class SignIn_Activity extends AppCompatActivity {
                         startActivity(i);
                     }
                     else {
-                        Toast.makeText(SignIn_Activity.this, "Please Check email or Password / Register First.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignIn_Activity.this, "Please Check email or Password OR Register First.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
