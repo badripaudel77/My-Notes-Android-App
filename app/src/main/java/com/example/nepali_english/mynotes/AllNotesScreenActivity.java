@@ -1,5 +1,6 @@
 package com.example.nepali_english.mynotes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -8,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -39,6 +43,31 @@ public class AllNotesScreenActivity extends AppCompatActivity {
 
     //alertdialog ref
     Alert alertDialog;
+
+    //bring the menu created in here
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.settings:
+                Toast.makeText(this, "settings will work later", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.logout:
+                //to do logout
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +125,7 @@ public class AllNotesScreenActivity extends AppCompatActivity {
                 AlertDialog.Builder deleteNoteAlertDialog = new AlertDialog.Builder(
                         AllNotesScreenActivity.this);
 
-                //initializng  alert dialog
+                //initializing  alert dialog
                 alertDialog = new Alert("Delete Note !", "Do you want to delete this note permanently ? [ can't be undo ]");
 
                 // Setting Dialog Title
