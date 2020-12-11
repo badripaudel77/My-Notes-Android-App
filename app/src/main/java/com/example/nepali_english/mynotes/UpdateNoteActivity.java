@@ -14,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 import com.example.nepali_english.mynotes.models.Note;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 
 public class UpdateNoteActivity extends AppCompatActivity {
     MyNotesDatabaseHelper myNotesDatabaseHelper;
@@ -28,10 +33,48 @@ public class UpdateNoteActivity extends AppCompatActivity {
     String strTitle, strDescription;
     boolean is_imp = false; // default to false
 
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_note);
+
+        mAdView = findViewById(R.id.adViewUpdate);
+        final AdRequest request = new AdRequest.Builder().build();
+        mAdView.loadAd(request);
+
+        //reload app if failed
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mAdView.loadAd(request);
+            }
+        });
+
+        //add InterstitialAd
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.loadAd(request);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if(mInterstitialAd.isLoaded())
+                    mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mInterstitialAd.loadAd(request);
+            }
+        });
+
 
         final String username = getIntent().getStringExtra("username");
 

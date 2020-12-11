@@ -11,6 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 
 public class SignIn_Activity extends AppCompatActivity {
 
@@ -25,10 +29,26 @@ public class SignIn_Activity extends AppCompatActivity {
 
     Button submit_sign_in_btn;
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_);
+
+        //display the add here, banner add
+        mAdView = findViewById(R.id.adViewLogin);
+        final AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        //reload app if failed
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mAdView.loadAd(adRequest);
+            }
+        });
 
         //change title
         getSupportActionBar().setTitle("Sign In : My Notes");
@@ -76,7 +96,7 @@ public class SignIn_Activity extends AppCompatActivity {
                  else {
                     int status =Integer.parseInt( myNotesDatabaseHelper.getLoginData(email, password));
                     if (status>0) {
-                        Toast.makeText(getApplicationContext(), "Successful login.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Successful login.", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), AllNotesScreenActivity.class);
                         i.putExtra("username", email);
                         startActivity(i);

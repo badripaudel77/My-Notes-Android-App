@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 import com.example.nepali_english.mynotes.models.Note;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 
 public class CreateNewNoteActivity extends AppCompatActivity {
 
@@ -35,10 +39,26 @@ public class CreateNewNoteActivity extends AppCompatActivity {
     //Note classs
     Note noteModel;
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_note);
+
+        //display the add here, banner add
+        mAdView = findViewById(R.id.adViewCreateNote);
+        final AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        //reload app if failed
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mAdView.loadAd(adRequest);
+            }
+        });
 
         final String username = getIntent().getStringExtra("username");
 

@@ -110,6 +110,17 @@
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adViewLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    app:adSize="BANNER"
+                    app:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+
+
             </LinearLayout>
 
         </ScrollView>

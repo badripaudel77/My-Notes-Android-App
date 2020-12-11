@@ -24,9 +24,9 @@
 
     <ImageView
         android:id="@+id/go_back"
-        android:layout_width="310dp"
-        android:layout_height="161dp"
-        android:layout_marginBottom="200dp"
+        android:layout_width="351dp"
+        android:layout_height="190dp"
+        android:layout_marginBottom="300dp"
         android:paddingBottom="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/listViewDetails"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,5 +34,20 @@
         app:layout_constraintTop_toBottomOf="parent"
         app:srcCompat="@drawable/back"
         app:tint="@android:color/holo_purple" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="@+id/go_back"
+        app:layout_constraintEnd_toEndOf="@+id/go_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/go_back"></com.google.android.gms.ads.AdView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

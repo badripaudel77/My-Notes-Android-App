@@ -13,6 +13,11 @@ import android.widget.Toast;
 import com.example.nepali_english.mynotes.custom_adapter.MyCustomNotesAdapter;
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 import com.example.nepali_english.mynotes.models.Note;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +35,48 @@ public class ImportantNotesActivity extends AppCompatActivity {
     //custom adapter for note list view
     MyCustomNotesAdapter myCustomNotesAdapter;
 
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_important_notes);
+
+        //display the add here, banner add
+        mAdView = findViewById(R.id.adViewImpNotes);
+        final AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        //reload app if failed
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mAdView.loadAd(adRequest);
+            }
+        });
+
+        //add InterstitialAd
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.loadAd(adRequest);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if(mInterstitialAd.isLoaded())
+                    mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mInterstitialAd.loadAd(adRequest);
+            }
+        });
 
         //get username
         final String username = getIntent().getStringExtra("username");
@@ -57,7 +100,7 @@ public class ImportantNotesActivity extends AppCompatActivity {
         List<Note> allImpNotes = myNotesDatabaseHelper.getAllImpNotes(myNotesDatabaseHelper.getIdFromUsername(username));
 
         if(allImpNotes.size() <= 0)
-            Toast.makeText(this, "You don't have any Important Notes.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You don't have any Important Notes yet, Please create notes first.", Toast.LENGTH_SHORT).show();
         //my custom adapter
         myCustomNotesAdapter  = new MyCustomNotesAdapter(ImportantNotesActivity.this, (ArrayList<Note>) allImpNotes);
         listView.setAdapter(myCustomNotesAdapter);

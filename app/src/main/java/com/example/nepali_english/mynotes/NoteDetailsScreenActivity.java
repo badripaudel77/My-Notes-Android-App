@@ -16,6 +16,11 @@ import com.example.nepali_english.mynotes.alert.Alert;
 import com.example.nepali_english.mynotes.custom_adapter.MyCustomDetailsNotesAdapter;
 import com.example.nepali_english.mynotes.dboperations.MyNotesDatabaseHelper;
 import com.example.nepali_english.mynotes.models.Note;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +43,47 @@ public class NoteDetailsScreenActivity extends AppCompatActivity {
     //alert
     Alert alert;
 
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_details_screen);
+
+        //display the add here, banner add
+        mAdView = findViewById(R.id.adViewDetails);
+        final AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        //reload app if failed
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mAdView.loadAd(adRequest);
+            }
+        });
+
+        //add InterstitialAd
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.loadAd(adRequest);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                if(mInterstitialAd.isLoaded())
+                    mInterstitialAd.show();
+            }
+            @Override
+            public void onAdFailedToLoad(LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+                mInterstitialAd.loadAd(adRequest);
+            }
+        });
 
         final int clickedNoteId = getIntent().getIntExtra("clickedId", -1);
 
