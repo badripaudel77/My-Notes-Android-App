@@ -30,3 +30,6 @@ Disclaimer :
 Publishing this app to the playstore is strictly prohibitted and will be reported if found so. This project is available only for the learning purpose.
 
 ----------------------------------
+
+### screenshot
+![ScreenShot](https://badripaudel.netlify.app/images/note_app.jpg)
