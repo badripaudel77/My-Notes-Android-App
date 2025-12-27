@@ -47,3 +47,4 @@ It also lays the foundation for further enhancements, such as ** cloud sync ** f
 ### Sketch of the Features:
 
 ![App Sketch](https://raw.githubusercontent.com/badripaudel77/My-Notes-Android-App/master/app/src/main/res/drawable/my_notes_sketch_.png)
+![App Sketch](https://raw.githubusercontent.com/badripaudel77/My-Notes-Android-App/master/app/src/main/res/drawable/note_app.png)
